@@ -67,40 +67,33 @@ class RegistryFilter<T extends RegistryEntry, K extends keyof T = keyof T> {
   }
 
   /**
-   * Filters entries **strictly** by their `area_id`.
-   *
-   * - Entries with a matching `area_id` are kept.
-   * - If `expandToDevice` is `true`, the device's `area_id` is evaluated if the entry's area_id doesn't match.
-   * - If `areaId` is `undefined` (or omitted), entries without an `area_id` property are kept.
+   * Filters entries by their `area_id`.
    *
    * @param {string | undefined} areaId - The area id to match.
-   * @param {boolean} [expandToDevice=true] - Whether to use the device's `area_id` if the entry's doesn't match.
+   * @param {boolean} [expandToDevice=true] - Whether to evaluate the device's `area_id` (see remarks).
    *
    * @remarks
-   * For area id `undisclosed`, the `area_id` of the entry's device may be `undisclosed` or `undefined`.
+   * For entries with area id `undisclosed` or `undefined`, the device's `area_id` must also match if `expandToDevice`
+   * is `true`.
    */
   whereAreaId(areaId?: string, expandToDevice: boolean = true): this {
     const predicate = (entry: T) => {
       let deviceAreaId: string | null | undefined = undefined;
       const entryObject = entry as EntityRegistryEntry;
 
-      // Retrieve the device area ID only if expandToDevice is true
       if (expandToDevice && entryObject.device_id) {
         deviceAreaId = Registry.devices.find((device) => device.id === entryObject.device_id)?.area_id;
       }
 
-      // Logic for 'undisclosed' areaId
-      if (areaId === 'undisclosed') {
-        return entry.area_id === areaId && (deviceAreaId === areaId || deviceAreaId === undefined);
-      }
-
-      // Logic for undefined areaId
       if (areaId === undefined) {
-        return entry.area_id === undefined && (!expandToDevice || deviceAreaId === undefined);
+        return entry.area_id === undefined && deviceAreaId === undefined;
       }
 
-      // Logic for any other areaId
-      return entry.area_id === areaId || (expandToDevice && deviceAreaId === areaId);
+      if (entry.area_id === 'undisclosed' || !entry.area_id) {
+        return deviceAreaId === areaId;
+      }
+
+      return entry.area_id === areaId;
     };
 
     this.filters.push(this.checkInversion(predicate));
