@@ -55,50 +55,50 @@ Want to get your hands dirty with the code? Awesome! We appreciate all code cont
    account.
 2. **Clone Your Fork:** Clone your forked repository to your local machine.
 
-    ```bash
-    git clone https://github.com/YOUR_USERNAME/mushroom-strategy.git
-    cd mushroom-strategy
-    ```
+       ```bash
+       git clone https://github.com/YOUR_USERNAME/mushroom-strategy.git
+       cd mushroom-strategy
+       ```
 
-3. **Create a New Branch:** Create a new branch for your feature or bug fix. Use a descriptive name (e.g.,
-   `feature/my-awesome-feature`, `bugfix/fix-admonition-rendering`).
+3. **Create a New Branch:** Create a new branch for your feature or bug fix.  
+   Use a descriptive name (e.g., `feature/my-awesome-feature`, `bugfix/fix-admonition-rendering`).
 
-    ```bash
-    git checkout -b feature/my-new-feature
-    ```
+       ```bash
+       git checkout -b feature/my-new-feature
+       ```
 
 4. **Set up Development Environment:**
 
-  * Ensure you have Node.js and npm installed.
-  * Install project dependencies: `npm install`
-  * You can build the strategy with `npm run build` (for production) or `npm run build-dev` (for development/testing).
-  * Copy the built files to your Home Assistant's `www/community/mushroom-strategy` folder for testing.
+       * Ensure you have Node.js and npm installed.
+       * Install project dependencies: `npm install`
+       * You can build the strategy with `npm run build` (for production) or `npm run build-dev` (for development/testing).
+       * Copy the built files to your Home Assistant's `www/community/mushroom-strategy` folder for testing.
 
 5. **Make Your Changes:** Implement your bug fix or new feature.
 6. **Test Your Changes:** Thoroughly test your changes to ensure they work as expected and don't introduce new issues.
 7. **Commit Your Changes:**
 
-  * We follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for clear commit history.
-  * Example: `feat: add new card option` or `fix: correct card rendering issue`
+       * We follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for clear commit history.
+       * Example: `feat: add new card option` or `fix: correct card rendering issue`
 
-    ```bash
-    git add .
-    git commit -m "feat: add super cool new feature"
-    ```
+       ```bash
+       git add .
+       git commit -m "feat: add super cool new feature"
+       ```
 
 8. **Push to Your Fork:**
 
-    ```bash
-    git push origin feature/my-new-feature
-    ```
+       ```bash
+       git push origin feature/my-new-feature
+       ```
 
 9. **Create a Pull Request (PR):**
 
-  * Go to your forked repository on GitHub.
-  * You should see a prompt to create a pull request from your new branch to the `main` branch of
-    `DigiLive/mushroom-strategy`.
-  * Provide a clear title and description for your PR, referencing any related issues.
-  * Be prepared to discuss your changes and address any feedback during the review process.
+       * Go to your forked repository on GitHub.
+       * You should see a prompt to create a pull request from your new branch to the `main` branch of
+         `DigiLive/mushroom-strategy`.
+       * Provide a clear title and description for your PR, referencing any related issues.
+       * Be prepared to discuss your changes and address any feedback during the review process.
 
 ---
 
@@ -123,10 +123,10 @@ Examples: fr, fr-CA, zh-Hans.
    Each language has its own `locale.json` file (e.g., `en.json`, `nl.json`, `pt-BR.json`).
 3. **Create or Update:**
 
-  * **To create a new language:** Copy an existing `.json` file (e.g., `en.json`), rename it to your language
-    code (e.g., `de.json` for German), and translate the property values.
-  * **To update an existing language:** Open the `.json` file for your language and update any missing or
-    outdated translations.
+       * **To create a new language:** Copy an existing `.json` file (e.g., `en.json`), rename it to your language
+         code (e.g., `de.json` for German), and translate the property values.
+       * **To update an existing language:** Open the `.json` file for your language and update any missing or
+         outdated translations.
 
 4. **Submit a Pull Request:** Once your translations are complete, submit a pull request with your changes. Clearly
    state which language you are contributing to or updating.
@@ -154,8 +154,8 @@ Examples: fr, fr-CA, zh-Hans.
         
         /** Registry of currently supported languages */
         const languages: Record<string, unknown> = {
-        en,
-        'pt-BR': pt_br,
+          en,
+          'pt-BR': pt_br,
         };
         ```
 

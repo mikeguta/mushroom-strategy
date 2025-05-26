@@ -18,9 +18,10 @@ In the different views, the cards belonging to a specific domain will be horizon
 The number of cards per row can be configured with this option.
 
 !!! note
-* Domain `default` represents any other domain than supported by this strategy.
-* The `showControls` option will default to false for domain which can't be controlled.
-* The `hide_config_entities` and `hide_diagnostic_entities` options are only available as an "All domains" option.
+
+    * Domain `default` represents any other domain than supported by this strategy.
+    * The `showControls` option will default to false for domain which can't be controlled.
+    * The `hide_config_entities` and `hide_diagnostic_entities` options are only available as an "All domains" option.
 
 ---
 

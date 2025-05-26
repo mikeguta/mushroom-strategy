@@ -1,3 +1,5 @@
+# Frequently Asked Questions
+
 ??? question "How do I add a device or entity to an area?"
 
     You can add devices to an area by going to `Settings` found at the bottom of the sidebar.
@@ -8,10 +10,11 @@
     4. Select :material-pencil: or :material-cog: in the top right corner.
     5. Choose an area in the area field.
 
-    !!!  warning
+    !!! warning
         If you created an entity manually (in your `configuration.yaml`), you may need to create a `unique_id` before 
         you can set an area to it.  
-        See Home Assistant's [documentation][uniqueIdUrl] for more info about unique ids.
+        See Home Assistant's [documentation](https://www.home-assistant.io/faq/unique_id){: target="_blank"} for more 
+        info about unique ids.
 
 ??? question "How do I hide entities from the Strategy?"
 
@@ -24,8 +27,8 @@
     
     
     !!! note
-        If you don't want to hide the entity from all dashboards, you can use [Card Options][cardOptionsUrl] to hide
-        specific entities and devices.
+        If you don't want to hide the entity from all dashboards, you can use [Card Options](options/card-options.md)
+        to hide specific entities and devices.
 
 ??? question "How do I get the id of entities, devices and areas?"
 
@@ -48,9 +51,3 @@
         1. Select `Settings` at the bottom of the sidebar.
         2. Select `Areas`.
         3. Select :material-pencil: of the area you want to get the id of.
-
-<!-- references -->
-
-[uniqueIdUrl]: https://www.home-assistant.io/faq/unique_id
-
-[cardOptionsUrl]: options/card-options.md

@@ -85,6 +85,8 @@ You can define a custom entity to use by setting an entity id.
 !!! note
 To hide the weather chip, you should hide or disable the entity itself.
 
+### Example
+
 ```yaml
 strategy:
   type: custom:mushroom-strategy
@@ -100,7 +102,7 @@ strategy:
 ## Extra Chips
 
 To add custom chips, you can configure them in `extra_chips`.  
-See [Mushroom Chips][chipDocUrl] for all available chips.
+See [Mushroom Chips][chipDocUrl]{: target="_blank"} for all available chips.
 
 !!! tip
 You can build your chips in a temporary card in another dashboard and copy the `chips` group from the YAML of that

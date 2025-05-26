@@ -46,4 +46,3 @@ engage with the community!
 to ❤️ [sponsor the project](https://github.com/sponsors/DigiLive) to support its continued development! Your support
 helps us grow and improve.
 
-// TODO: add contribution and pre-release

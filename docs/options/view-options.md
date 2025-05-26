@@ -51,7 +51,7 @@ views: []
 ## Extra Views
 
 The `extra_views` group enables you to specify the configuration of additional views.
-Each view can have the options as described in the [Home Assistant documentation][viewDocUrl].
+Each view can have the options as described in the [Home Assistant documentation][viewDocUrl]{: target="_blank"}.
 
 !!! tip
 You can build your view in a temporary dashboard and copy the `views` group from the YAML of that dashboard into
@@ -77,4 +77,3 @@ strategy:
 <!-- references -->
 
 [viewDocUrl]: https://www.home-assistant.io/dashboards/views/#views
-

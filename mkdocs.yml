@@ -37,6 +37,9 @@ theme:
     - content.action.edit
     - content.footnote.tooltips
 
+extra_css:
+  - stylesheets/extra.css
+
 nav:
   - Home: index.md
   - Getting Started:

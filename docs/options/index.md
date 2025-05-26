@@ -43,5 +43,3 @@ strategy:
         icon: mdi:sofa
         icon_color: green
 ```
-
-
