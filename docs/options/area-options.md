@@ -90,7 +90,7 @@ views: []
 ```
 
 !!! note
-Area specific options take precedence over options set for all areas.!
+    Area specific options take precedence over options set for all areas.!
 
 <!-- References -->
 

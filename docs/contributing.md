@@ -132,7 +132,7 @@ Examples: fr, fr-CA, zh-Hans.
    state which language you are contributing to or updating.
 
 !!! info
-**Integrating a new Translation:**
+    **Integrating a new Translation:**
 
     * For your new language file to be picked up, it needs to be imported and registered at file
       `src/utilities/localize.ts`.

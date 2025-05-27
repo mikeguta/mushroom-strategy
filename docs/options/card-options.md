@@ -30,6 +30,6 @@ strategy:
 ```
 
 !!! tip
-You can build your card at another dashboard and copy the `cards` group from the YAML of that dashboard into group
-`card_options` of the strategy configuration.  
-The YAML can be found in the Raw configuration editor.
+    You can build your card at another dashboard and copy the `cards` group from the YAML of that dashboard into group
+    `card_options` of the strategy configuration.  
+    The YAML can be found in the Raw configuration editor.

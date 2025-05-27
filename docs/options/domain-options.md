@@ -31,7 +31,7 @@ Use `_` as the identifier to set options for all domains.
 
 ## Example
 
-```YAML
+```yaml
 strategy:
   type: custom:mushroom-strategy
   options:

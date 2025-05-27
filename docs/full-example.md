@@ -1,4 +1,4 @@
-Here is a full example using all the options provided with the strategy.
+# Full example using all the options provided with the strategy
 
 ```yaml
 strategy:

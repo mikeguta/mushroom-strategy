@@ -58,7 +58,7 @@ nav:
 
 markdown_extensions:
   - toc:
-      permalink: "#"
+      permalink: '#'
   - admonition
   - pymdownx.superfences
   - pymdownx.details

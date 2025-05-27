@@ -1,4 +1,4 @@
-# Welcome to the Mushroom Strategy Documentation :material-mushroom:
+# Welcome to the Mushroom Strategy Documentation :material-mushroom: &nbsp;
 
 [![Release][releaseBadge]][releaseUrl]
 [![HACS][hacsBadge]][hacsUrl]
@@ -51,17 +51,16 @@ engage with the community!
 **Enjoying the Mushroom Strategy?** Consider giving our project a
 :star: [star on GitHub](https://github.com/DigiLive/mushroom-strategy) and exploring ways
 to :heart: [sponsor the project](https://github.com/sponsors/DigiLive) to support its continued development! Your
-support
-helps us grow and improve.
+support helps us grow and improve.
 
 ## Previews
 
 ![Preview GIF](images/preview.gif)
 
 ??? note "Click here for more images..."
-![Automatic](images/auto.png)
-![Views](images/views.png)
-![customizable](images/customizable.png)
+    ![Automatic](images/auto.png)
+    ![Views](images/views.png)
+    ![customizable](images/customizable.png)
 
 <!-- Badge References -->
 
@@ -70,8 +69,6 @@ helps us grow and improve.
 [hacsBadge]: https://img.shields.io/badge/HACS-Default-blue
 
 [releaseBadge]: https://img.shields.io/github/v/tag/digilive/mushroom-strategy?filter=v2.3.2&label=Release
-
-[sponsorBadge]: https://img.shields.io/badge/Sponsor_him-%E2%9D%A4-%23db61a2.svg?&logo=github&color=%23fe8e86
 
 <!-- Repository References -->
 

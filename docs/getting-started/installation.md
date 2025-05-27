@@ -41,7 +41,7 @@ If you require testing a custom build for debug purposes, follow these steps:
 3. If file `mushroom-strategy.js.gz` exists in that folder, rename or delete it.
 
 !!! note
-Refresh the cache of the client you use to access Home Assistant.
+    Refresh the cache of the client you use to access Home Assistant.
 
 ## Updating
 
@@ -49,7 +49,7 @@ By default, Home Assistant will notify you when an update of the strategy is ava
 You can update the strategy by going to `Settings` found at the bottom of the sidebar.
 
 !!! tip
-You can enable notifications of pre-releases.
+    You can enable notifications of pre-releases.
 
     * Go to `Settings` > `Devices & services` > `Entities`.
     * Search for `Mushroom Dashboard` and switch on the `Pre-release` entity.

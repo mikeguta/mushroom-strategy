@@ -54,8 +54,8 @@ The `extra_views` group enables you to specify the configuration of additional v
 Each view can have the options as described in the [Home Assistant documentation][viewDocUrl]{: target="_blank"}.
 
 !!! tip
-You can build your view in a temporary dashboard and copy the `views` group from the YAML of that dashboard into
-group `extra_views` of the strategy configuration. The YAML can be found in the Raw configuration editor.
+    You can build your view in a temporary dashboard and copy the `views` group from the YAML of that dashboard into
+    group `extra_views` of the strategy configuration. The YAML can be found in the Raw configuration editor.
 
 ### Example
 
