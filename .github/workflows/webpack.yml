@@ -74,5 +74,4 @@ jobs:
           git config --global user.email "${{ env.CI_COMMIT_EMAIL }}"
           git remote set-url origin https://x-access-token:${{ steps.generate_token.outputs.token }}@github.com/DigiLive/mushroom-strategy.git
           git add dist
-          git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
-          git push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "${{ env.CI_COMMIT_MESSAGE }}" && git push)
