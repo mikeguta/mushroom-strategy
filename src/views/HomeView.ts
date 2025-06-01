@@ -26,16 +26,6 @@ class HomeView extends AbstractView {
   /** The domain of the entities that the view is representing. */
   static readonly domain = 'home' as const;
 
-  /** Returns the default configuration object for the view. */
-  static getDefaultConfig(): ViewConfig {
-    return {
-      title: localize('generic.home'),
-      icon: 'mdi:home-assistant',
-      path: 'home',
-      subview: false,
-    };
-  }
-
   /**
    * Class constructor.
    *
@@ -45,6 +35,16 @@ class HomeView extends AbstractView {
     super();
 
     this.baseConfiguration = { ...this.baseConfiguration, ...HomeView.getDefaultConfig(), ...customConfiguration };
+  }
+
+  /** Returns the default configuration object for the view. */
+  static getDefaultConfig(): ViewConfig {
+    return {
+      title: localize('generic.home'),
+      icon: 'mdi:home-assistant',
+      path: 'home',
+      subview: false,
+    };
   }
 
   /**
@@ -116,7 +116,12 @@ class HomeView extends AbstractView {
       homeViewCards.push(...Registry.strategyOptions.extra_cards);
     }
 
-    return homeViewCards;
+    return [
+      {
+        type: 'vertical-stack',
+        cards: homeViewCards,
+      },
+    ];
   }
 
   /**
@@ -210,7 +215,11 @@ class HomeView extends AbstractView {
 
     return {
       type: 'vertical-stack',
-      cards: stackHorizontal(cardConfigurations),
+      cards: stackHorizontal(
+        cardConfigurations,
+        Registry.strategyOptions.home_view.stack_count['persons'] ??
+          Registry.strategyOptions.home_view.stack_count['_'],
+      ),
     };
   }
 
@@ -223,7 +232,6 @@ class HomeView extends AbstractView {
   private async createAreasSection(): Promise<StackCardConfig | undefined> {
     if (Registry.strategyOptions.home_view.hidden.includes('areas')) {
       // Areas section is hidden.
-
       return;
     }
 
@@ -257,7 +265,10 @@ class HomeView extends AbstractView {
     return {
       type: 'vertical-stack',
       title: Registry.strategyOptions.home_view.hidden.includes('areasTitle') ? undefined : localize('generic.areas'),
-      cards: stackHorizontal(cardConfigurations, { area: 1, 'custom:mushroom-template-card': 2 }),
+      cards: stackHorizontal(cardConfigurations, Registry.strategyOptions.home_view.stack_count['_'], {
+        'custom:mushroom-template-card': Registry.strategyOptions.home_view.stack_count.areas?.[0],
+        area: Registry.strategyOptions.home_view.stack_count.areas?.[1],
+      }),
     };
   }
 }

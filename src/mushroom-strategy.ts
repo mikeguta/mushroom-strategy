@@ -4,16 +4,17 @@ import SensorCard from './cards/SensorCard';
 import { Registry } from './Registry';
 import { LovelaceCardConfig } from './types/homeassistant/data/lovelace/config/card';
 import { LovelaceConfig } from './types/homeassistant/data/lovelace/config/types';
-import { LovelaceViewConfig, LovelaceViewRawConfig } from './types/homeassistant/data/lovelace/config/view';
+import { LovelaceViewConfig } from './types/homeassistant/data/lovelace/config/view';
 import {
   DashboardInfo,
   isSupportedDomain,
   isSupportedView,
   StrategyArea,
+  StrategyViewConfig,
   ViewInfo,
 } from './types/strategy/strategy-generics';
 import { sanitizeClassName } from './utilities/auxiliaries';
-import { logMessage, lvlError } from './utilities/debug';
+import { logMessage, lvlError, lvlInfo } from './utilities/debug';
 import RegistryFilter from './utilities/RegistryFilter';
 import { stackHorizontal } from './utilities/cardStacking';
 
@@ -40,7 +41,7 @@ class MushroomStrategy extends HTMLTemplateElement {
   static async generateDashboard(info: DashboardInfo): Promise<LovelaceConfig> {
     await Registry.initialize(info);
 
-    const views: LovelaceViewRawConfig[] = [];
+    const views: StrategyViewConfig[] = [];
 
     // Parallelize view imports and creation.
     const viewPromises = Registry.getExposedNames('view')
@@ -55,6 +56,8 @@ class MushroomStrategy extends HTMLTemplateElement {
           if (viewConfiguration.cards.length) {
             return viewConfiguration;
           }
+
+          logMessage(lvlInfo, `View ${viewName} has no entities available!`);
         } catch (e) {
           logMessage(lvlError, `Error importing ${viewName} view!`, e);
         }
@@ -62,9 +65,18 @@ class MushroomStrategy extends HTMLTemplateElement {
         return null;
       });
 
-    const resolvedViews = (await Promise.all(viewPromises)).filter(Boolean) as LovelaceViewRawConfig[];
+    const resolvedViews = (await Promise.all(viewPromises)).filter(Boolean) as StrategyViewConfig[];
 
     views.push(...resolvedViews);
+
+    // Extra views
+    if (Registry.strategyOptions.extra_views) {
+      views.push(...Registry.strategyOptions.extra_views);
+
+      views.sort((a, b) => {
+        return (a.order ?? Infinity) - (b.order ?? Infinity) || (a.title ?? '').localeCompare(b.title ?? '');
+      });
+    }
 
     // Subviews for areas
     views.push(
@@ -72,17 +84,14 @@ class MushroomStrategy extends HTMLTemplateElement {
         title: area.name,
         path: area.area_id,
         subview: true,
+        hidden: area.hidden ?? false,
+        order: area.order ?? Infinity,
         strategy: {
           type: 'custom:mushroom-strategy',
           options: { area },
         },
       })),
     );
-
-    // Extra views
-    if (Registry.strategyOptions.extra_views) {
-      views.push(...Registry.strategyOptions.extra_views);
-    }
 
     return { views };
   }
@@ -121,7 +130,7 @@ class MushroomStrategy extends HTMLTemplateElement {
         return null;
       }
 
-      const titleCard = new HeaderCard(
+      const headerCard = new HeaderCard(
         { entity_id: entities.map((entity) => entity.entity_id) },
         {
           ...Registry.strategyOptions.domains['_'],
@@ -133,7 +142,7 @@ class MushroomStrategy extends HTMLTemplateElement {
         const DomainCard = (await import(`./cards/${moduleName}`)).default;
 
         if (domain === 'sensor') {
-          const domainCards = entities
+          let domainCards = entities
             .filter((entity) => Registry.hassStates[entity.entity_id]?.attributes.unit_of_measurement)
             .map((entity) => {
               const options = {
@@ -144,7 +153,17 @@ class MushroomStrategy extends HTMLTemplateElement {
               };
               return new SensorCard(entity, options).getCard();
             });
-          return domainCards.length ? { type: 'vertical-stack', cards: [titleCard, ...domainCards] } : null;
+
+          if (domainCards.length) {
+            domainCards = stackHorizontal(
+              domainCards,
+              Registry.strategyOptions.domains[domain].stack_count ?? Registry.strategyOptions.domains['_'].stack_count,
+            );
+
+            return { type: 'vertical-stack', cards: [headerCard, ...domainCards] };
+          }
+
+          return null;
         }
 
         let domainCards = entities.map((entity) => {
@@ -155,11 +174,12 @@ class MushroomStrategy extends HTMLTemplateElement {
           return new DomainCard(entity, cardOptions).getCard();
         });
 
-        if (domain === 'binary_sensor') {
-          domainCards = stackHorizontal(domainCards);
-        }
+        domainCards = stackHorizontal(
+          domainCards,
+          Registry.strategyOptions.domains[domain].stack_count ?? Registry.strategyOptions.domains['_'].stack_count,
+        );
 
-        return domainCards.length ? { type: 'vertical-stack', cards: [titleCard, ...domainCards] } : null;
+        return domainCards.length ? { type: 'vertical-stack', cards: [headerCard, ...domainCards] } : null;
       } catch (e) {
         logMessage(lvlError, `Error creating card configurations for domain ${domain}`, e);
         return null;
@@ -180,17 +200,27 @@ class MushroomStrategy extends HTMLTemplateElement {
       if (miscellaneousEntities.length) {
         try {
           const MiscellaneousCard = (await import('./cards/MiscellaneousCard')).default;
-          const miscellaneousCards = [
-            new HeaderCard(target, Registry.strategyOptions.domains.default).createCard(),
-            ...miscellaneousEntities.map((entity) =>
-              new MiscellaneousCard(entity, Registry.strategyOptions.card_options?.[entity.entity_id]).getCard(),
-            ),
-          ];
+          let miscellaneousCards = miscellaneousEntities.map((entity) =>
+            new MiscellaneousCard(entity, Registry.strategyOptions.card_options?.[entity.entity_id]).getCard(),
+          );
 
-          viewCards.push({
-            type: 'vertical-stack',
-            cards: miscellaneousCards,
-          });
+          const headerCard = new HeaderCard(target, {
+            ...Registry.strategyOptions.domains['_'],
+            ...Registry.strategyOptions.domains['default'],
+          }).createCard();
+
+          if (miscellaneousCards.length) {
+            miscellaneousCards = stackHorizontal(
+              miscellaneousCards,
+              Registry.strategyOptions.domains['default'].stack_count ??
+                Registry.strategyOptions.domains['_'].stack_count,
+            );
+
+            viewCards.push({
+              type: 'vertical-stack',
+              cards: [headerCard, ...miscellaneousCards],
+            });
+          }
         } catch (e) {
           logMessage(lvlError, 'Error creating card configurations for domain `miscellaneous`', e);
         }
@@ -203,7 +233,7 @@ class MushroomStrategy extends HTMLTemplateElement {
 
 customElements.define('ll-strategy-mushroom-strategy', MushroomStrategy);
 
-const version = 'v2.3.2';
+const version = 'v2.3.3';
 console.info(
   '%c Mushroom Strategy %c '.concat(version, ' '),
   'color: white; background: coral; font-weight: 700;',

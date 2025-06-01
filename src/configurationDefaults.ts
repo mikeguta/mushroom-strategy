@@ -6,6 +6,9 @@ import { localize } from './utilities/localize';
  */
 export const ConfigurationDefaults: StrategyDefaults = {
   areas: {
+    _: {
+      type: 'AreaCard',
+    },
     undisclosed: {
       // TODO: Refactor undisclosed to other.
       aliases: [],
@@ -20,6 +23,7 @@ export const ConfigurationDefaults: StrategyDefaults = {
       name: localize('generic.undisclosed'),
       picture: null,
       temperature_entity_id: null,
+      order: Infinity,
     },
   },
   card_options: {},
@@ -39,11 +43,13 @@ export const ConfigurationDefaults: StrategyDefaults = {
       hide_config_entities: undefined,
       hide_diagnostic_entities: undefined,
       showControls: true,
+      stack_count: 1,
     },
     binary_sensor: {
       title: `${localize('sensor.binary')} ` + localize('sensor.sensors'),
       showControls: false,
       hidden: false,
+      stack_count: 2, // TODO: Add to wiki. also for other configurations.
     },
     camera: {
       title: localize('camera.cameras'),
@@ -136,11 +142,22 @@ export const ConfigurationDefaults: StrategyDefaults = {
       offService: 'vacuum.stop',
       hidden: false,
     },
+    valve: {
+      title: localize('valve.valves'),
+      iconOn: 'mdi:valve-open',
+      iconOff: 'mdi:valve-closed',
+      onService: 'valve.open_valve',
+      offService: 'valve.close_valve',
+      hidden: false,
+    },
   },
   extra_cards: [],
   extra_views: [],
   home_view: {
     hidden: [],
+    stack_count: {
+      _: 2,
+    },
   },
   views: {
     camera: {
@@ -181,6 +198,10 @@ export const ConfigurationDefaults: StrategyDefaults = {
     },
     vacuum: {
       order: 8,
+      hidden: false,
+    },
+    valve: {
+      order: 11,
       hidden: false,
     },
   },
