@@ -12,7 +12,7 @@ import {
   StrategyConfig,
   StrategyViewConfig,
   SupportedDomains,
-  SupportedViews
+  SupportedViews,
 } from './types/strategy/strategy-generics';
 import { logMessage, lvlFatal, lvlOff, lvlWarn, setDebugLevel } from './utilities/debug';
 import setupCustomLocalize from './utilities/localize';
@@ -37,10 +37,6 @@ class Registry {
 
   /** Entries of Home Assistant's device registry. */
   private static _devices: DeviceRegistryEntry[];
-  /** Entries of Home Assistant's state registry */
-  private static _hassStates: HassEntities;
-  /** Indicates whether this module is initialized. */
-  private static _initialized: boolean = false;
 
   /**
    * Home Assistant's Device registry.
@@ -50,6 +46,22 @@ class Registry {
    */
   static get devices(): DeviceRegistryEntry[] {
     return Registry._devices;
+  }
+
+  /** Entries of Home Assistant's state registry */
+  private static _hassStates: HassEntities;
+
+  /** Home Assistant's State registry. */
+  static get hassStates(): HassEntities {
+    return Registry._hassStates;
+  }
+
+  /** Indicates whether this module is initialized. */
+  private static _initialized: boolean = false;
+
+  /** Get the initialization status of the Registry class. */
+  static get initialized(): boolean {
+    return Registry._initialized;
   }
 
   /** Entries of Home Assistant's entity registry. */
@@ -68,11 +80,6 @@ class Registry {
   /** Entries of Home Assistant's area registry. */
   private static _areas: StrategyArea[] = [];
 
-  /** Home Assistant's State registry. */
-  static get hassStates(): HassEntities {
-    return Registry._hassStates;
-  }
-
   /**
    * Home Assistant's Area registry.
    *
@@ -81,11 +88,6 @@ class Registry {
    */
   static get areas(): StrategyArea[] {
     return Registry._areas;
-  }
-
-  /** Get the initialization status of the Registry class. */
-  static get initialized(): boolean {
-    return Registry._initialized;
   }
 
   /** The Custom strategy configuration. */
@@ -252,7 +254,7 @@ class Registry {
     states.push(
       ...new RegistryFilter(Registry.entities)
         .whereDomain(domain)
-        .where((entity) => !entity.entity_id.endsWith('_stateful_scene'))
+        .where((entity) => !entity.entity_id.endsWith('_stateful_scene') && entity.platform !== 'group')
         .toList()
         .map((entity) => `states['${entity.entity_id}']`),
     );
