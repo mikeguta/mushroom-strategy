@@ -70,7 +70,7 @@ We welcome contributions and feedback!
 
 <!-- Repository References -->
 
-[releaseUrl]: https://github.com/DigiLive/mushroom-strategy/releases/tag/v2.3.2
+[releaseUrl]: https://github.com/DigiLive/mushroom-strategy/releases/tag/v2.3.4
 
 <!-- Other References -->
 
